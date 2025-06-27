@@ -1,0 +1,174 @@
+   /* General Styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+.btn-block{
+  min-width: 100% !important;
+}
+
+.flex-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.left{
+  float: left;
+}
+
+.right{
+  float: right;
+}
+
+
+.clearfix{
+  min-height: 50px;
+  min-width: 100%;
+}
+
+.clearfix-sm{
+  min-height: 25px;
+  min-width: 100%;
+}
+
+.clearfix-lg{
+  min-height: 100px;
+  min-width: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 5vh;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  /*background-color: #fff;*/
+  background: blueviolet;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar .logo img{
+  width: 50px;
+  height: 50px;
+}
+
+.sidebar .menu a {
+  font-size: 16px;
+  text-decoration: none;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar .menu a i {
+  margin-right: 10px;
+}
+
+/* Main Content */
+.main-content {
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+}
+
+.main-content.shift {
+  position: absolute;
+  z-index: 0;
+  transition: all 200ms ease-in-out;
+  /*margin-left: 250px;*/
+  /*right: -250px;*/
+}
+
+
+/* Navbar */
+
+.navbar .btn {
+  font-size: 20px;
+  display: block;
+}
+
+/*============================================
+
+===============================================*/
+
+.main-content{
+/*  padding: 3rem 2rem !important;
+*/}
+
+.main-content section{
+  padding: 5rem 2rem;
+}
+
+.main-content .dashboard{
+  margin-top: 5rem;
+  padding-top: 5rem;
+  /*background: #eef;*/
+  border-radius: 25px;
+}
+
+.main-content .dashboard .row .col-12 .card{
+  min-height: 200px;
+  margin-bottom: 2rem;
+}
+
+
+.main-content .dashboard .row .col-12 .card .display-4{
+  font-weight: 600;
+}
+
+
+.main-content .dashboard .actions{
+  background: #eef;
+  padding:  1rem;
+}
+
+
+.main-content .dashboard .actions button{
+  margin: 1rem 0rem;
+}
+
+/*============================================
+
+===============================================*/
+
+
+
+/* Footer */
+footer {
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Desktop View */
+@media (min-width: 768px) {
+
+  /* Navbar */
+  .navbar .btn {
+    font-size: 20px;
+    display: none;
+  }
+
+  .sidebar {
+    left: 0;
+  }
+
+  .sidebar #closeSidebar {
+    display: none;
+  }
+
+  .main-content {
+    margin-left: 250px;
+    position: relative;
+  }
+}

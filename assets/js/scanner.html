@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner</title>
+    <script src="https://cdn.jsdelivr.net/npm/qr-scanner/qr-scanner.min.js"></script>
+    <style>
+        #scanner {
+            display: none;
+            width: 300px;
+            height: 300px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+        #fileInput {
+            display: none;
+        }
+        #canvas {
+            display: none;
+        }
+        #qrImage {
+            display: none;
+            max-width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>QR Code Scanner</h1>
+
+    <!-- Buttons to choose scan mode -->
+    <button id="snapButton">Snap to Scan (Webcam)</button>
+    <button id="uploadButton">Upload to Scan</button>
+
+    <!-- Video element for webcam scanning -->
+    <video id="scanner" autoplay></video>
+    <button id="scanButton" style="display:none;">Click to Scan</button>
+
+    <!-- File input for image scanning -->
+    <input type="file" id="fileInput" accept="image/*">
+
+    <!-- Canvas and Image for uploaded QR Code -->
+    <canvas id="canvas"></canvas>
+    <img id="qrImage" alt="Uploaded QR Code Image">
+
+    <p>QR Code Result: <span id="qrResult"></span></p>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Elements
+            const snapButton = document.getElementById('snapButton');
+            const uploadButton = document.getElementById('uploadButton');
+            const scannerVideo = document.getElementById('scanner');
+            const scanButton = document.getElementById('scanButton');
+            const fileInput = document.getElementById('fileInput');
+            const canvas = document.getElementById('canvas');
+            const qrImage = document.getElementById('qrImage');
+            const qrResult = document.getElementById('qrResult');
+
+            let videoStream = null;
+            let qrScanner = null;
+
+            // Function to stop video stream
+            function stopVideoStream() {
+                if (videoStream) {
+                    const tracks = videoStream.getTracks();
+                    tracks.forEach(track => track.stop());
+                    videoStream = null;
+                }
+            }
+
+            // Snap to Scan (Webcam) Mode
+            snapButton.addEventListener('click', () => {
+                fileInput.style.display = 'none';
+                scannerVideo.style.display = 'block';
+                scanButton.style.display = 'block';
+                qrImage.style.display = 'none';
+                canvas.style.display = 'none';
+
+                // Access the user's webcam using mediaDevices.getUserMedia()
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+                    .then(stream => {
+                        videoStream = stream;
+                        scannerVideo.srcObject = stream;
+                    })
+                    .catch(err => {
+                        console.error("Error accessing webcam: ", err);
+                        alert("Could not access the camera. Please allow camera access.");
+                    });
+            });
+
+            // Button to trigger the QR scanning
+            scanButton.addEventListener('click', () => {
+                if (qrScanner) {
+                    qrScanner.stop(); // Stop any existing scanner
+                }
+                qrScanner = new QrScanner(scannerVideo, result => {
+                    qrResult.textContent = result;
+                    qrScanner.stop();
+                    stopVideoStream(); // Stop the video stream after scanning
+                });
+                qrScanner.start();
+            });
+
+            // Upload to Scan Mode
+            uploadButton.addEventListener('click', () => {
+                fileInput.style.display = 'block';
+                scannerVideo.style.display = 'none';
+                scanButton.style.display = 'none';
+                qrImage.style.display = 'none';
+                canvas.style.display = 'none';
+                stopVideoStream(); // Stop the video stream if running
+            });
+
+            // Handling file input change event
+            fileInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    // Display the image in an <img> element
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        qrImage.src = e.target.result;
+                        qrImage.style.display = 'block';
+                        
+                        // Draw the image on the canvas
+                        const img = new Image();
+                        img.src = e.target.result;
+                        img.onload = function() {
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, img.width, img.height);
+
+                            // Use the canvas image for scanning
+                            canvas.style.display = 'block';
+
+                            QrScanner.scanImage(canvas)
+                                .then(result => {
+                                    qrResult.textContent = result;
+                                })
+                                .catch(err => {
+                                    console.error(err);
+                                    alert("No valid QR code found.");
+                                });
+                        };
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 2,
+  "settings": {
+    "color": {
+      "palette": [
+        {
+          "slug": "primary",
+          "color": "#003459",
+          "name": "Primary"
+        },
+        {
+          "slug": "accent",
+          "color": "#2681ff",
+          "name": "Accent"
+        },
+        {
+          "slug": "text",
+          "color": "#333333",
+          "name": "Text"
+        },
+        {
+          "slug": "white",
+          "color": "#ffffff",
+          "name": "White"
+        }
+      ],
+      "custom": false,
+      "customDuotone": false,
+      "customGradient": false,
+      "defaultPalette": false,
+      "duotone": [],
+      "gradients": []
+    },
+    "spacing": {
+      "units": ["px", "em", "rem", "%", "vh", "vw"],
+      "padding": true,
+      "margin": true,
+      "blockGap": true
+    },
+    "typography": {
+      "fontSizes": [
+        {
+          "slug": "small",
+          "size": "0.875rem",
+          "name": "Small"
+        },
+        {
+          "slug": "normal",
+          "size": "1rem",
+          "name": "Normal"
+        },
+        {
+          "slug": "large",
+          "size": "1.5rem",
+          "name": "Large"
+        },
+        {
+          "slug": "x-large",
+          "size": "2rem",
+          "name": "X-Large"
+        }
+      ],
+      "fontFamilies": [
+        {
+          "slug": "inter",
+          "name": "Inter",
+          "fontFace": [
+            {
+              "fontFamily": "Inter",
+              "fontWeight": "400 700",
+              "src": [
+                "https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+              ]
+            }
+          ]
+        }
+      ],
+      "customFontSize": true,
+      "customLineHeight": true
+    },
+    "layout": {
+      "contentSize": "1140px",
+      "wideSize": "1440px"
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "#ffffff",
+      "text": "var(--wp--preset--color--text)"
+    },
+    "elements": {
+      "button": {
+        "color": {
+          "background": "var(--wp--preset--color--primary)",
+          "text": "#ffffff"
+        }
+      },
+      "link": {
+        "color": {
+          "text": "var(--wp--preset--color--accent)"
+        }
+      }
+    }
+  }
+}

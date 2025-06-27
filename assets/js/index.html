@@ -1,0 +1,41 @@
+<script type="text/javascript">
+	// Define the QR code data
+const qrCodeData = {
+    data: "https://www.qrcode-monkey.com",
+    image: "https://www.qrcode-monkey.com/img/qr-code-monkey-logo-white.svg",
+    x: 0,
+    y: 0,
+    size: 400,
+    crop: true,
+    download: false,
+    file: "png"
+};
+
+// Send a POST request to the QR code generation API
+fetch('https://api.qrcode-monkey.com/qr/create', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin' : 'no-cors'
+    },
+    body: JSON.stringify(qrCodeData)
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+    }
+    return response.json();
+})
+.then(data => {
+    console.log('QR Code generated:', data);
+    // You can display the QR code image or download it here
+    const imgUrl = data.qrCodeUrl; // Adjust based on the actual response structure
+    const imgElement = document.createElement('img');
+    imgElement.src = imgUrl;
+    document.body.appendChild(imgElement); // Append the QR code image to the document
+})
+.catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+});
+
+</script>
